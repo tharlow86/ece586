@@ -2,9 +2,9 @@ import os
 import random
 
 
-i_count = 4    # input neuron count
-h_count = 4    # hidden neuron count
-o_count = 4    # output neuron count
+i_count = input('Number of input neurons: ')
+h_count = input('Number of hidden neurons: ')
+o_count = input('Number of output neurons: ')
 
 i_layer = [random.randint(0,1) for i in range(i_count)]
 h_layer = [0 for i in range(h_count)]
@@ -70,10 +70,4 @@ def strListToFile(filename, str_list):
         for i in str_list:
             f.write(i)
 
-
-    
-    
-
-    
-  
 
