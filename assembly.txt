@@ -1,0 +1,39 @@
+ldip, #32
+ldwp, #0
+ldwp, #40
+ldi
+ldw
+nop
+msa
+t0
+ldw
+nop
+msa
+t1
+ldw
+nop
+msa
+t2
+ldw
+nop
+msa
+t3
+sto
+ldi
+ldw
+nop
+msa
+t0
+ldw
+nop
+msa
+t1
+ldw
+nop
+msa
+t2
+ldw
+nop
+msa
+t3
+sto

@@ -1,10 +1,10 @@
 import random
 
-n = 9    # input neuron count
+n = 4    # input neuron count
 m = 4    # hidden neuron count
 p = 4    # output neuron count
 
-x =    # input layer
+x = []   # input layer
 h = []   # hidden layer
 o = []   # output layer
 
@@ -13,8 +13,8 @@ how = []  # hidden-to-output weights
 
 
 # growing and initializing layers
-##for i in range(n):
-##    x.append(random.randint(0,1))
+for i in range(n):
+   x.append(random.randint(0,1))
 
 for i in range(m):
     h.append(random.randint(0,1))
@@ -24,9 +24,7 @@ for i in range(p):
 
 # growing and initializing weights
 for i in range(n*m):
-    xhw.append(random.randint(-1,1))
-
-for i in range(m*p):
+    xhw.append(random.randint(for i in range(m*p):
     how.append(random.randint(-1,1))
 
 
