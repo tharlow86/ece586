@@ -16,6 +16,8 @@ Files:
 
   finalReport.docx - The final report in Microsoft Word format
 
+  finalReport.pdf - The final report in PDF format
+
   appendix\finalDatapath.png - Datapath diagram.  Also in final report.
 
   appendix\pipelineTable.xlsx - Pipeline table in Microsoft Excel format. Not in report.
