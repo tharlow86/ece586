@@ -1,16 +1,18 @@
 import os
 import random
 
-# START DEBUGGING!!! Change back to user input!!!
+
 # receive input from user to create files for simulator
-i_count = 4 #int(input('Number of input neurons: '))
-h_count = 4 #int(input('Number of hidden neurons: '))
-o_count = 4 #int(input('Number of output neurons: '))
-f_count = 1 #int(input('\nNumber of random input vectors: '))
-# STOP DEBUGGING!!!
+i_count = int(input('Number of input neurons: '))
+h_count = int(input('Number of hidden neurons: '))
+o_count = int(input('Number of output neurons: '))
+f_count = int(input('\nNumber of random input vectors: '))
+print()
+
 
 # number of zeros for fill number appended to end of file names
 # this should be the number of digits in f_count - 1
+# leaving at 4 to handle 1000 files
 zf_val = 4
 
 
@@ -24,6 +26,8 @@ o_layer = [0 for i in range(o_count)]
 ih_weights = [random.randint(-1,1) for i in range(i_count*h_count)]
 ho_weights = [random.randint(-1,1) for i in range(h_count*o_count)]
 
+
+
 # memory addresses to be used in generated assembly code
 # order of data in memory: ih_weights, oh_weights, i_layer, h_layer, o_layer
 ih_address = 0
@@ -31,15 +35,6 @@ ho_address = i_count * h_count
 i_address = ho_address + h_count*o_count
 h_address = i_address + i_count
 o_address = h_address + h_count
-
-## START DEBUGGING!!!
-print(ih_address)
-print(ho_address)
-print(i_address)
-print(h_address)
-print(o_address)
-## STOP DEBUGGING!!!
-
 
 
 def randomInput(size):
@@ -159,16 +154,6 @@ def strListToFile(filename, str_list):
 # create list of hex strings for weights that will be the same for all
 # data memory images
 ih_hex = listToHexStrings(ih_weights)
-## START DEBUGGING!!!
-##print('ih_weights=')
-##print(ih_weights)
-##print('len(ih_weights)=')
-##print(len(ih_weights))
-##print('ih_hex=')
-##print(ih_hex)
-##print('len(ih_hex)=')
-##print(len(ih_hex))
-## STOP DEBUGGING!!!
 ho_hex = listToHexStrings(ho_weights)
 weight_hex = ih_hex + ho_hex
 
@@ -179,13 +164,12 @@ o_hex = listToHexStrings(o_layer)
 # directory strings
 d_in = 'input\\'
 d_out = 'output\\'
+d_inst = 'instruction\\'
 
 
 
-
-            
-
-# loop to create number of input data files that was specified by user
+# loop to create number of data memory file
+# there is a data memory file for each input vector 
 for i in range(f_count):
     file_num = str(i).zfill(zf_val)
     # create data memory file name
@@ -206,17 +190,17 @@ for i in range(f_count):
     o_hex = listToHexStrings(o_layer)
     strListToFile(f_calc_out, o_hex)
     print(f_calc_out + ' created!')
-    # create assembly code file
+    
+    
 
-    # create machine code instruction file
 
 
-# create human-readable assembly file and machine-readable hex file for instruction
-# memory
+# create instruction memory file and assembly file
+# there is only one instruction memory per simulation
 fna = 'assembly.txt'
 fnm = 'machine.txt'
-with open(fna,'w') as fa:
-    with open(fnm,'w') as fm:
+with open(d_inst + fna,'w') as fa:
+    with open(d_inst + fnm,'w') as fm:
         # load input pointer instruction
         fa.write('ldip, #' + str(i_address) + '\n')
         a,b = hex(i_address).rsplit(sep='x')
@@ -228,8 +212,8 @@ with open(fna,'w') as fa:
         b = b.zfill(7)
         fm.write('0x2' + b + '\n')
         # load output pointer instruction
-        fa.write('ldwp, #' + str(o_address) + '\n')
-        a,b = hex(o_address).rsplit(sep='x')
+        fa.write('ldop, #' + str(h_address) + '\n')
+        a,b = hex(h_address).rsplit(sep='x')
         b = b.zfill(7)
         fm.write('0x3' + b + '\n')
         # calculating hidden layer
@@ -264,8 +248,10 @@ with open(fna,'w') as fa:
                     cob = cob + 1
                 elif cob == 3:
                     fa.write('t3\n')
-                    fm.write('0xe' + 7*'0' + '\n')
+                    fm.write('0xf' + 7*'0' + '\n')
                     # store output instruction
                     fa.write('sto\n')
                     fm.write('0xa' + 7*'0' + '\n')
-                    cob = 0                
+                    cob = 0
+        print(d_inst + fna,"created!")
+        print(d_inst + fnm,"created!")
